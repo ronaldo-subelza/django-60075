@@ -2,11 +2,13 @@ from django.http import HttpResponse
 from django.template import Template, Context, loader
 from datetime import datetime
 from django.shortcuts import render
+from inicio.models import Auto
 
 def mi_vista(request):
     return HttpResponse('hola soy la vista')
 def inicio(request):
-    return HttpResponse('<h1> Soy la pantalla de inicio </h1>')
+    # return HttpResponse('<h1> Soy la pantalla de inicio </h1>')
+    return render(request, 'index.html')
 def vista_datos1(request, nombre):
     nombre_mayuscula = nombre.upper()
     return HttpResponse(f'Holaa {nombre_mayuscula}!!')
@@ -47,3 +49,8 @@ def segundo_template(request):
     
     return render(request, 'segundo_template.html',datos)
     
+def crear_auto(request, marca, modelo, anio):
+    
+    auto = Auto(marca=marca, modelo=modelo, anio=anio)
+    auto.save()
+    return render(request, 'creacion_auto_correcto.html', {'auto': auto})
